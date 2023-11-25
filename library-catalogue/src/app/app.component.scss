@@ -1,0 +1,6 @@
+@use './sizes.scss';
+
+#page {
+    height: calc(100vh - sizes.$header-height);
+    width: 100vw;
+}

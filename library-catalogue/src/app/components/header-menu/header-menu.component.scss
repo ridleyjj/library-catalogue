@@ -1,0 +1,8 @@
+@use '../../color-palette.scss';
+@use '../../sizes.scss';
+
+.header {
+    height: sizes.$header-height;
+    // background-color: color-palette.$rose-taupe;
+    width: 100%;
+}
