@@ -1,26 +1,26 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Book } from 'src/app/models/book.model';
-import ColorThief from '@neutrixs/colorthief';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { DbServiceService } from 'src/app/services/db-service.service';
 import { ColorServiceService } from 'src/app/services/color-service/color-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BookDisplayComponent } from '../book-display/book-display.component';
 
 @Component({
   selector: 'app-book',
   templateUrl: './book.component.html',
   styleUrls: ['./book.component.scss'],
 })
-export class BookComponent implements OnInit {
-  public book!: Book;
-  public colorThief: ColorThief;
+export class BookComponent implements AfterViewInit {
   public bookId: number = 0;
-  public imageLoading = false;
+  public imageLoading = false; // checks for when new book info should be brought in
   public appearFromLeft: boolean = true;
-  @ViewChild('coverImage') coverImgElement!: ElementRef;
+  public isPrimaryDisplayActive = true;
+  public isAnimationInProgress = false;
+  private initialised = false;
+  public previousBookId = -1;
+  @ViewChild('bookDisplay1') primaryBookDisplayElement!: BookDisplayComponent;
+  @ViewChild('bookDisplay2') secondaryBookDisplayElement!: BookDisplayComponent;
   @ViewChild('leftArrow') leftArrowElement!: ElementRef;
   @ViewChild('rightArrow') rightArrowElement!: ElementRef;
-  @ViewChild('bookDisplay') bookDisplayElement!: ElementRef;
-  @ViewChild('detailsDisplay') detailsDisplayElement!: ElementRef;
 
   public animationClasses = [
     'slide-offscreen-left',
@@ -29,112 +29,100 @@ export class BookComponent implements OnInit {
     'slide-onscreen-right',
   ];
 
+  public get activeBookDisplay(): BookDisplayComponent {
+    return this.isPrimaryDisplayActive
+      ? this.primaryBookDisplayElement
+      : this.secondaryBookDisplayElement;
+  }
+  public get inactiveBookDisplay(): BookDisplayComponent {
+    return this.isPrimaryDisplayActive
+      ? this.secondaryBookDisplayElement
+      : this.primaryBookDisplayElement;
+  }
+
   constructor(
     private dbService: DbServiceService,
     public colorService: ColorServiceService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
-    this.colorThief = new ColorThief();
     this.bookId = parseInt(
       this.activatedRoute.snapshot.paramMap.get('id') ?? ''
     );
   }
 
-  public ngOnInit(): void {
-    this.updateBookInfo();
+  public ngAfterViewInit(): void {
+    this.updateBookInfo(this.activeBookDisplay);
     document.addEventListener('keydown', (event: KeyboardEvent) => {
-      console.log(event);
-      if (event.key === 'ArrowLeft') {
-        this.prevBook();
-        return;
-      } else if (event.key === 'ArrowRight') {
-        this.nextBook();
-        return;
+      if (!this.isAnimationInProgress) {
+        if (event.key === 'ArrowLeft') {
+          this.switchBook(false);
+          return;
+        } else if (event.key === 'ArrowRight') {
+          this.switchBook(true);
+          return;
+        }
       }
-      // do something
     });
   }
 
-  public updateBookInfo(): void {
-    this.imageLoading = true;
+  public updateBookInfo(bookDisplay: BookDisplayComponent): void {
+    bookDisplay.imageLoading = true;
     this.dbService.getBookById(this.bookId).subscribe((res) => {
-      this.book = res;
+      bookDisplay.book = res;
     });
   }
 
   public onImageLoad(): void {
-    const palette = this.colorThief.getPalette(
-      this.coverImgElement.nativeElement
-    );
-    this.colorService.setColorPalette(palette);
     this.imageLoading = false;
-    this.triggerAnimationOnElement(
-      this.bookDisplayElement.nativeElement,
-      this.appearFromLeft ? 'slide-onscreen-right' : 'slide-onscreen-left'
-    );
-    this.triggerAnimationOnElement(
-      this.detailsDisplayElement.nativeElement,
-      this.appearFromLeft ? 'slide-onscreen-right' : 'slide-onscreen-left'
-    );
+    if (!this.initialised) {
+      this.initialised = true;
+    } else {
+      this.swapDisplays();
+    }
   }
 
-  public get owner(): string {
-    const name =
-      this.book.owner === 'J'
-        ? 'Jack'
-        : this.book.owner === 'L'
-        ? 'Leila'
-        : this.book.owner;
-    return name;
+  private swapDisplays() {
+    if (!this.isAnimationInProgress && !this.imageLoading) {
+      this.inactiveBookDisplay.slide(true, !this.appearFromLeft);
+      this.isAnimationInProgress = true;
+      setTimeout(this.endAnimation.bind(this), 550);
+      this.isPrimaryDisplayActive = !this.isPrimaryDisplayActive;
+    }
   }
 
-  public get fictionOrNonFiction(): string {
-    return this.book.fiction ? 'Fiction' : 'Non-Fiction';
-  }
-
-  public get coverSource(): string {
-    return this.book
-      ? `https://covers.openlibrary.org/b/isbn/${this.book.ISBN}-L.jpg`
-      : '';
-  }
-
-  public nextBook(): void {
+  /**
+   * changes displayed book by either increasing the bookId by 1 or decreasing the bookId by 1
+   * @param next boolean, is the user moving to the next book by id (true) or the previous book by id (false)
+   */
+  public switchBook(next: boolean): void {
+    if (this.isAnimationInProgress || this.imageLoading) return;
     this.triggerAnimationOnElement(
       this.rightArrowElement.nativeElement,
-      'shift-right-animation'
+      `shift-${next ? 'right' : 'left'}-animation`
     );
-    this.triggerAnimationOnElement(
-      this.bookDisplayElement.nativeElement,
-      'slide-offscreen-left'
-    );
-    this.triggerAnimationOnElement(
-      this.detailsDisplayElement.nativeElement,
-      'slide-offscreen-left'
-    );
-    this.appearFromLeft = true;
-    this.bookId += 1;
+    this.activeBookDisplay.slide(false, next);
+    this.isAnimationInProgress = true;
+    this.appearFromLeft = next;
+    this.bookId += next ? 1 : -1;
+    // for testing
+    this.bookId > 4 && (this.bookId = 1);
+    this.bookId < 1 && (this.bookId = 4);
+    // testing code over
+    this.imageLoading = this.bookId !== this.previousBookId;
+    this.previousBookId = this.bookId - (next ? 1 : -1);
+    setTimeout(this.animationCallback.bind(this), 800);
     this.router.navigateByUrl(`/book/${this.bookId}`);
-    this.updateBookInfo();
+    this.updateBookInfo(this.inactiveBookDisplay);
   }
 
-  public prevBook(): void {
-    this.triggerAnimationOnElement(
-      this.leftArrowElement.nativeElement,
-      'shift-left-animation'
-    );
-    this.triggerAnimationOnElement(
-      this.bookDisplayElement.nativeElement,
-      'slide-offscreen-right'
-    );
-    this.triggerAnimationOnElement(
-      this.detailsDisplayElement.nativeElement,
-      'slide-offscreen-right'
-    );
-    this.appearFromLeft = false;
-    this.bookId -= 1;
-    this.router.navigateByUrl(`/book/${this.bookId}`);
-    this.updateBookInfo();
+  private animationCallback(): void {
+    this.endAnimation();
+    this.swapDisplays();
+  }
+
+  private endAnimation(): void {
+    this.isAnimationInProgress = false;
   }
 
   public triggerAnimationOnElement(

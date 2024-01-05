@@ -4,10 +4,11 @@ import { Directive, ElementRef, Input } from '@angular/core';
   selector: '[appHidden]',
 })
 export class HiddenDirective {
+  @Input() transitionTime: string = '0.2';
   @Input() set appHidden(isHidden: boolean) {
     this.el.nativeElement.style.color = isHidden ? 'transparent' : '';
     this.el.nativeElement.style.transition = `${
-      isHidden ? 'opacity 0.2s' : 'opacity 3s'
+      isHidden ? `opacity ${this.transitionTime}s` : 'opacity 3s'
     }`;
     this.el.nativeElement.style.opacity = isHidden ? '0' : '1';
   }

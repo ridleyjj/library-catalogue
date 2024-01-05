@@ -1,66 +1,12 @@
 <div id="page-container" appColorPalette backgroundColorIndex="3" colorIndex="0">
-<div class="left-arrow">
-    <button #leftArrow class="icon-button left-btn" (click)="prevBook()" aria-label="Go to previous Book"><i class="fa fa-chevron-left" appColorPalette colorIndex="0"
-        [style.transition]="'filter 0.5s, color 3s'"></i></button>
-</div>
-    <div #bookDisplay class="book-display-outer light-shadow" appColorPalette backgroundColorIndex="4">
-        <div class="book-display-outline" appColorPalette backgroundColorIndex="2">
-            <div class="book-display" appColorPalette backgroundColorIndex="4">
-                <img #coverImage [appHidden]="imageLoading" (load)="onImageLoad()" src="{{coverSource}}" 
-                crossOrigin="anonymous" alt="{{book.title}} cover image" class="cover">
-                <div *ngIf="imageLoading" [appHidden]="!imageLoading">
-                    <i class="fa fa-spinner"></i>
-                </div>
-            </div>
-        </div>
+    <div class="left-arrow">
+        <button #leftArrow class="icon-button left-btn" (click)="switchBook(false)" aria-label="Go to previous Book"><i class="fa fa-chevron-left" appColorPalette colorIndex="0"
+            [style.transition]="'filter 0.5s, color 3s'"></i></button>
     </div>
-    <div #detailsDisplay class="details-container-outer light-shadow" appColorPalette backgroundColorIndex="4">
-        <div class="details-container-outline" appColorPalette backgroundColorIndex="2">
-            <div class="details-container" appColorPalette backgroundColorIndex="4">
-                <div id="titles" class="info-block" [appHidden]="imageLoading">
-                    <div class="title">{{book.title}}</div>
-                    <div class="author">by {{book.authors[0]}}</div>
-                </div>
-                <div id="fiction" class="info-block" [appHidden]="imageLoading">
-                    <br>
-                    <div class="info-content fiction">{{fictionOrNonFiction}}</div>
-                </div>
-                <div id="category" class="info-block border-right" [appHidden]="imageLoading" appColorPalette borderColorIndex="0">
-                    <div class="info-title">
-                        category
-                    </div>
-                    <div class="info-content">
-                        {{book.category}}
-                    </div>
-                </div>
-                <div id="sub-category" class="info-block border-right" [appHidden]="imageLoading" appColorPalette borderColorIndex="0">
-                    <div class="info-title">
-                        sub-category
-                    </div>
-                    <div class="info-content">
-                        {{book.subCategories ? book.subCategories[0] : ''}}
-                    </div>
-                </div>
-                <div id="year" class="info-block border-right" [appHidden]="imageLoading" appColorPalette borderColorIndex="0">
-                    <div class="info-title">
-                        year
-                    </div>
-                    <div class="info-content">
-                        {{book.versionReleaseYear}}
-                    </div>
-                </div>
-                <div id="contributor" class="info-block" [appHidden]="imageLoading">
-                    <div class="info-title">
-                        contributed by
-                    </div>
-                    <div class="info-content">
-                        {{owner}}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="spinner-overlay middle-grid" [appHidden]="!imageLoading" transitionTime="0.05"><i class="fa fa-spinner"></i></div>
+    <app-book-display #bookDisplay1 class="middle-grid" [class.hidden]="!isPrimaryDisplayActive" (onCoverImageLoad)="onImageLoad()"></app-book-display>
+    <app-book-display #bookDisplay2 class="middle-grid" [class.hidden]="isPrimaryDisplayActive" (onCoverImageLoad)="onImageLoad()"></app-book-display>
     <div class="right-arrow">
-        <button #rightArrow class="icon-button right-btn" (click)="nextBook()" aria-label="Go to next Book"><i class="fa fa-chevron-right" appColorPalette colorIndex="0" [style.transition]="'filter 0.5s, color 3s'"></i></button>
+        <button #rightArrow class="icon-button right-btn" (click)="switchBook(true)" aria-label="Go to next Book"><i class="fa fa-chevron-right" appColorPalette colorIndex="0" [style.transition]="'filter 0.5s, color 3s'"></i></button>
     </div>
 </div>

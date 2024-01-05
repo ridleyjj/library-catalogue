@@ -1,0 +1,57 @@
+<div #bookDisplay class="book-display-outer light-shadow" appColorPalette backgroundColorIndex="4">
+    <div class="book-display-outline" appColorPalette backgroundColorIndex="2">
+        <div class="book-display" appColorPalette backgroundColorIndex="4">
+            <img #coverImage [appHidden]="imageLoading" (load)="onImageLoad()" src="{{coverSource}}" 
+            crossOrigin="anonymous" alt="{{_book.title}} cover image" class="cover">
+            <div *ngIf="imageLoading" [appHidden]="!imageLoading">
+                <i class="fa fa-spinner"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<div #detailsDisplay class="details-container-outer light-shadow" appColorPalette backgroundColorIndex="4">
+    <div class="details-container-outline" appColorPalette backgroundColorIndex="2">
+        <div class="details-container" appColorPalette backgroundColorIndex="4">
+            <div id="titles" class="info-block" [appHidden]="imageLoading">
+                <div class="title">{{_book.title}}</div>
+                <div class="author">by {{_book.authors[0]}}</div>
+            </div>
+            <div id="fiction" class="info-block" [appHidden]="imageLoading">
+                <br>
+                <div class="info-content fiction">{{fictionOrNonFiction}}</div>
+            </div>
+            <div id="category" class="info-block border-right" [appHidden]="imageLoading" appColorPalette borderColorIndex="0">
+                <div class="info-title">
+                    category
+                </div>
+                <div class="info-content">
+                    {{_book.category}}
+                </div>
+            </div>
+            <div id="sub-category" class="info-block border-right" [appHidden]="imageLoading" appColorPalette borderColorIndex="0">
+                <div class="info-title">
+                    sub-category
+                </div>
+                <div class="info-content">
+                    {{_book.subCategories ? _book.subCategories[0] : ''}}
+                </div>
+            </div>
+            <div id="year" class="info-block border-right" [appHidden]="imageLoading" appColorPalette borderColorIndex="0">
+                <div class="info-title">
+                    year
+                </div>
+                <div class="info-content">
+                    {{_book.versionReleaseYear}}
+                </div>
+            </div>
+            <div id="contributor" class="info-block" [appHidden]="imageLoading">
+                <div class="info-title">
+                    contributed by
+                </div>
+                <div class="info-content">
+                    {{owner}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

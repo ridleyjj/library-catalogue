@@ -7,6 +7,7 @@ import { BookComponent } from './components/book/book.component';
 import { HeaderMenuComponent } from './components/header-menu/header-menu.component';
 import { ColorPaletteDirective } from './directives/color-palette.directive';
 import { HiddenDirective } from './directives/hidden/hidden.directive';
+import { BookDisplayComponent } from './components/book-display/book-display.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { HiddenDirective } from './directives/hidden/hidden.directive';
     BookComponent,
     HeaderMenuComponent,
     ColorPaletteDirective,
-    HiddenDirective
+    HiddenDirective,
+    BookDisplayComponent
   ],
   imports: [
     BrowserModule,

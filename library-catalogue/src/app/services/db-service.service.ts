@@ -59,7 +59,7 @@ export class DbServiceService {
         publisher: '',
         versionReleaseYear: '2017',
         originalReleaseYear: '2017',
-        fiction: true,
+        fiction: false,
         ISBN: '9780525436058',
         owner: 'L',
         readByJack: true,
