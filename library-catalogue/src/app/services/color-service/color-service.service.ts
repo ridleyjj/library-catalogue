@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ColorServiceService {
+export class ColorService {
   public colorPalette: string[] = [];
   public _colorPalette: BehaviorSubject<string[]> = new BehaviorSubject<
     string[]
@@ -16,7 +16,8 @@ export class ColorServiceService {
 
   public setColorPalette(rgbArrays: number[][]): void {
     for (let i = 0; i < 8; i++) {
-      this.colorPalette[i] = this.convertArrayToColor(rgbArrays[i]);
+      this.colorPalette[i] =
+        i < rgbArrays.length ? this.convertArrayToColor(rgbArrays[i]) : 'white';
     }
     this._colorPalette.next(this.colorPalette);
   }

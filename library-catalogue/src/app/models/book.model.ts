@@ -18,3 +18,18 @@ export interface Book {
   onLoanFrom?: string;
   onLoanTo?: string;
 }
+
+export const EMPTY_BOOK: Book = {
+  id: -1,
+  title: '',
+  authors: [],
+  editors: [],
+  publisher: '',
+  versionReleaseYear: '',
+  originalReleaseYear: '',
+  fiction: false,
+  ISBN: '',
+  owner: '',
+  readByJack: false,
+  readByLeila: false,
+};

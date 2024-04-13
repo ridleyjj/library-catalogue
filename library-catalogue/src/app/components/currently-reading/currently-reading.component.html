@@ -1,0 +1,24 @@
+<div id="page-container">
+    <div class="book-container">
+        <app-simple-large-book #book1 class="book-display-one" [book]="jackCurrentBook" appColorPalette colorIndex="0"></app-simple-large-book>
+        <div class="background-one" appColorPalette backgroundColorIndex="2" [appHidden]="book1.imageLoading">
+            <div class="name">Jack</div>
+        </div>
+    </div>
+    <div class="title-container">
+        <div class="title" appColorPalette colorIndex="0">
+            Now Reading
+        </div>
+    </div>
+    <div class="title-container background-text">
+        <div class="title background-text" appColorPalette colorIndex="3">
+            Now Reading
+        </div>
+    </div>
+    <div class="book-container">
+        <app-simple-large-book #book2 class="book-display-two" [book]="leilaCurrentBook" appColorPalette colorIndex="0"></app-simple-large-book>
+        <div class="background-two" appColorPalette backgroundColorIndex="4" [appHidden]="book2.imageLoading">
+            <div class="name jack">Leila</div>
+        </div>
+    </div>
+</div>

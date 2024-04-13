@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { DbServiceService } from 'src/app/services/db-service.service';
-import { ColorServiceService } from 'src/app/services/color-service/color-service.service';
+import { DbService } from 'src/app/services/db.service';
+import { ColorService } from 'src/app/services/color-service/color-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookDisplayComponent } from '../book-display/book-display.component';
 
@@ -41,8 +41,8 @@ export class BookComponent implements AfterViewInit {
   }
 
   constructor(
-    private dbService: DbServiceService,
-    public colorService: ColorServiceService,
+    private dbService: DbService,
+    public colorService: ColorService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {

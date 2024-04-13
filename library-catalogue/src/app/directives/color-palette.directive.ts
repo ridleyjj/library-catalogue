@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input } from '@angular/core';
-import { ColorServiceService } from '../services/color-service/color-service.service';
+import { ColorService } from '../services/color-service/color-service.service';
 
 @Directive({
   selector: '[appColorPalette]',
@@ -18,10 +18,7 @@ export class ColorPaletteDirective {
   public _colorIndex: number = -1;
   public _borderColorIndex: number = -1;
 
-  constructor(
-    private el: ElementRef,
-    private colorService: ColorServiceService
-  ) {
+  constructor(private el: ElementRef, private colorService: ColorService) {
     this.colorService.colorPalette$.subscribe((palette) => {
       if (this._backgroundColorIndex >= 0) {
         this.setBackgroundColor(palette[this._backgroundColorIndex] ?? 'white');

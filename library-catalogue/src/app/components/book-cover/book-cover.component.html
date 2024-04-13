@@ -1,0 +1,5 @@
+<img id="cover-image" #coverImage [appHidden]="imageLoading" (load)="onImageLoad()" src="{{url}}" 
+    crossOrigin="anonymous" alt="{{title}} cover image" class="cover">
+<div *ngIf="imageLoading" [appHidden]="!imageLoading">
+    <i #spinner class="fa fa-spinner"></i>
+</div>

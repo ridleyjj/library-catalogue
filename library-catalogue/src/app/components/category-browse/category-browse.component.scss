@@ -1,0 +1,20 @@
+:host {
+    display: block;
+    text-align: center;
+}
+
+#title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.bookcase {
+    width: 90rem;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}

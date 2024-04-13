@@ -6,8 +6,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import ColorThief, { color } from '@neutrixs/colorthief';
-import { Book } from 'src/app/models/book.model';
-import { ColorServiceService } from 'src/app/services/color-service/color-service.service';
+import { Book, EMPTY_BOOK } from 'src/app/models/book.model';
+import { ColorService } from 'src/app/services/color-service/color-service.service';
 
 @Component({
   selector: 'app-book-display',
@@ -22,20 +22,7 @@ export class BookDisplayComponent {
       this._book = newBook;
     }
   }
-  protected _book: Book = {
-    id: -1,
-    title: '',
-    authors: [],
-    editors: [],
-    publisher: '',
-    versionReleaseYear: '',
-    originalReleaseYear: '',
-    fiction: false,
-    ISBN: '',
-    owner: '',
-    readByJack: false,
-    readByLeila: false,
-  };
+  protected _book: Book = EMPTY_BOOK;
   public colorThief: ColorThief;
   private palette!: color[];
   public imageLoading = false; // controls spinner for book cover image
@@ -51,7 +38,7 @@ export class BookDisplayComponent {
     'slide-onscreen-right',
   ];
 
-  constructor(public colorService: ColorServiceService) {
+  constructor(public colorService: ColorService) {
     this.colorThief = new ColorThief();
   }
 

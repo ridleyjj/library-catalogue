@@ -4,6 +4,15 @@ body {
     margin: 0;
 }
 
+::-webkit-scrollbar {
+    width: 0; /* Remove scrollbar space */
+    background: transparent; /* Optional: just make scrollbar invisible */
+ }
+ 
+ ::-webkit-scrollbar-thumb {
+    background: #000000;
+ }
+
 .light-shadow {
     box-shadow: 1px 2px 8px 0 rgba(0, 0, 0, 0.2);    
 }
@@ -12,6 +21,11 @@ body {
     transition: background-color 3s;
 }
 
+* :not(i) {
+    font-family: 'Work-Sans';
+}
+
+// icon button
 .icon-button {
     background-color: transparent;
     border: none;
@@ -33,4 +47,12 @@ body {
     filter: brightness(0.8);
     text-shadow: none;
     transition: filter 0.1s, text-shadow 0.1s;
+}
+
+// fonts
+@font-face {
+    font-family: 'Work-Sans';
+    src: url('assets/fonts/Work_Sans/WorkSans-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
