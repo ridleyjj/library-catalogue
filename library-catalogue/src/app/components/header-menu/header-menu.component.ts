@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ColorServiceService } from 'src/app/services/color-service/color-service.service';
+import { ColorService } from 'src/app/services/color-service/color-service.service';
 
 @Component({
   selector: 'app-header-menu',
@@ -7,5 +7,5 @@ import { ColorServiceService } from 'src/app/services/color-service/color-servic
   styleUrls: ['./header-menu.component.scss'],
 })
 export class HeaderMenuComponent {
-  constructor(public colorService: ColorServiceService) {}
+  constructor(public colorService: ColorService) {}
 }

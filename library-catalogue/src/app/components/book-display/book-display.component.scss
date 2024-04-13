@@ -1,8 +1,7 @@
-@use '../../color-palette.scss';
-
 :host {
     display: grid;
     grid-template-columns: 3fr 4fr;
+    width: 100%;
 }
 
 .book-display-outer {
@@ -98,7 +97,7 @@
 }
 
 .border-right {
-    border-right: 3px solid color-palette.$silver;
+    border-right: 3px solid #ffffff;
 }
 
 .fiction {

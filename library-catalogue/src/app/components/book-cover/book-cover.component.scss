@@ -1,0 +1,29 @@
+:host {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+img {
+    box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.fa-spinner {
+    font-size: 4rem;
+    animation: spinner 1s linear infinite;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+@keyframes spinner {
+    to {transform: rotate(360deg);}
+}
+
+.clickable-cover {
+    cursor: pointer;
+    transition: box-shadow 1s;
+}
+
+.clickable-cover:hover {
+    box-shadow: 1px 1px 6px 3px rgba(255, 255, 255, 0.5);
+}

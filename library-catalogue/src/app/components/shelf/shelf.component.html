@@ -1,0 +1,7 @@
+<div class="shelf-background">
+        <div class="book" *ngFor="let book of booksLeft" style="transition: height 0.2s;" [style.height]="book.height + '%'" [style.width]="book.width"
+            [style.background-color]="colorPalette[book.colorIndex]"></div>
+        <div class="title" [style.color]="titleColor" (click)="onShelfClick()">{{title}}</div>
+        <div class="book" *ngFor="let book of booksRight" style="transition: height 0.2s;" [style.height]="book.height + '%'" [style.width]="book.width"
+            [style.background-color]="colorPalette[book.colorIndex]"></div>
+</div>

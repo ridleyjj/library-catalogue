@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class DbServiceService {
+export class DbService {
   constructor() {}
 
   books: Map<number, Book> = new Map<number, Book>([
